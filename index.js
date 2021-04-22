@@ -4,7 +4,11 @@
 // `nodeIntegration` is turned off. Use `preload.js` to
 // selectively enable features needed in the rendering
 // process.
-import { ipcRenderer } from 'electron';
+// import { createRequire } from 'module'
+// const require = createRequire(import.meta.url);
+// import { ipcRenderer } from 'electron';
+const electron = require('electron');
+const ipcRenderer = electron.ipcRenderer
 
 const selectFolderBtn = document.querySelector("#selectFolderBtn");
 const drawBtn = document.querySelector("#drawBtn");
@@ -15,6 +19,8 @@ const times = document.querySelector("#times");
 const figure = document.querySelector("#figure");
 const startingPage = document.querySelector("#starting-page");
 
+console.log("HELLO");
+
 const startDrawing = (el)=>{
     startingPage.style.display = 'none';
     figure.style.display = 'block';
@@ -24,6 +30,12 @@ selectFolderBtn.addEventListener("click",(el)=>{
     console.log("You clicked A Button");
     // trigger file prompt
     ipcRenderer.send('chooseFile');
+
+    // handle response
+    ipcRenderer.on('chosenFile', (event, base64) => {
+        const src = `data:image/jpg;base64,${base64}`
+        console.log(src);
+    })
 });
 
 drawBtn.addEventListener("click",(el)=>{
@@ -31,8 +43,5 @@ drawBtn.addEventListener("click",(el)=>{
     console.log(src);
 });
 
-// handle response
-ipcRenderer.on('chosenFile', (event, base64) => {
-    const src = `data:image/jpg;base64,${base64}`
-  })
+
   
