@@ -29,8 +29,16 @@
 			</div>
 			<button id="drawBtn">Let's draw!</button>
 		</div>
-		<div style="display:none" id="figure"></div>
-
+		<div style="display:none" id="figure-container">
+			<div id="time"></div>
+			<div id="figure"></div>
+			<div id="controls">
+				<div class="control"><img class="exit" src="utils/images/exit.png"></img></div>
+				<div class="control"><img class="skip-left" src="utils/images/skip.png"></img></div>
+				<div class="control"><img class="pause" src="utils/images/pause.png"></img></div>
+				<div class="control"><img class="skip-right" src="utils/images/skip.png"></img></div>
+			</div>
+		</div>
 		<!-- You can also require other files to run in this process -->
 		<script>
       require('./index.js');

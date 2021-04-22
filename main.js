@@ -9,6 +9,7 @@ const  {ipcMain,dialog} = require("electron");
 const fs = require('fs');
 
 let win;
+let dir
 
 function createWindow() {
 
@@ -31,19 +32,50 @@ function createWindow() {
 
 app.on('ready', ()=>{
   createWindow()
-  ipcMain.on("chooseFile", (event, arg) => {
-    const result = dialog.showOpenDialog({
-      properties: ["openFile"],
-      filters: [{ name: "Images", extensions: ["png","jpg","jpeg"] }]
+
+  // Promtpt user to select folder
+  ipcMain.on('selectDirectory',(event,arg)=>{
+    let result = [];
+
+    dir = dialog.showOpenDialog(win,{
+      properties:['openDirectory'],
+      filters:[{name:"Images"},{extensions:["png","jpg","jpeg"]}]
     });
-  
-    win.webContents.send('chosenFile', result);
+    dir = dir[0];
+    console.log(dir);
+
+    fs.readdir(dir,(err,files)=>{
+      if(err)
+        console.log(err);
+      else{
+
+        files.forEach(file => {
+          if(path.extname(file) === ".png" || path.extname(file) === ".jpg"){
+
+            result.push(path.join(dir,file));
+          }
+        });
+        console.log(result);
+        win.webContents.send('chosenFiles', result);
+      }
+    });
+
+  });
+
+  // ipcMain.on("chooseFile", (event, arg) => {
+  //   const result = dialog.showOpenDialog({
+  //     properties: ["openFile"],
+  //     filters: [{ name: "Images", extensions: ["png","jpg","jpeg"] }]
+  //   });
+
+    console.log(dir);
+    // 
   
     // result.then(({canceled, filePaths, bookmarks}) => {
     //   const base64 = fs.readFileSync(filePaths[0]).toString('base64');
     // event.reply("chosenFile", result);
     // });
-  });
+  // });
 });
 
 

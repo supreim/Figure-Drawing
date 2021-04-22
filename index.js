@@ -17,29 +17,57 @@ const numOfImgs = document.querySelector(".num-of-imgs");
 const sessions = document.querySelector("#sessions");
 const times = document.querySelector("#times");
 const figure = document.querySelector("#figure");
+const figureContainer = document.querySelector("#figure-container");
 const startingPage = document.querySelector("#starting-page");
 
+let imagePath;
 
-const startDrawing = (el)=>{
-    startingPage.style.display = 'none';
-    figure.style.display = 'block';
-}
+
 
 selectFolderBtn.addEventListener("click",(el)=>{
-    console.log("You clicked A Button");
     // trigger file prompt
-    ipcRenderer.send('chooseFile');
+    ipcRenderer.send('selectDirectory');
 
     // handle response
-    ipcRenderer.on('chosenFile', (event, base64) => {
-        const src = `data:image/jpg;base64,${base64}`
-        console.log(src);
-    })
+    ipcRenderer.on('chosenFiles', (event, imgNames) => {
+        imagePath = imgNames;
+        folderName = imgNames[0].split('\\').reverse()[1];
+        numImages = imgNames.length;
+
+        nameOfFolder.innerHTML = folderName;
+        numOfImgs.innerHTML = numImages;
+
+
+        // src = `data:image/jpg;base64,${base64}`
+        // console.log(src);
+    });
+
 });
 
 drawBtn.addEventListener("click",(el)=>{
-    console.log("You clicked A Button");
-    console.log(src);
+    imgTags = [];
+
+    if(imagePath){
+        console.log(imagePath);
+        startingPage.style.display = 'none';
+        figureContainer.style.display = 'block';
+
+        imagePath.forEach((path)=>{
+            imgTag = document.createElement("img");
+            imgTag.src = path;
+            imgTag.style.width = '100%';
+            imgTag.style.height = '100%';
+            imgTag.style.objectFit = 'cover';
+            imgTag.style.overflow = 'hidden';
+
+            imgTags.push(imgTag);
+        });
+
+        figure.appendChild(imgTags[0]);
+    }
+    else{
+        console.log("Please Select a folder first!");
+    }
 });
 
 
