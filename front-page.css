@@ -1,0 +1,46 @@
+* {
+	font-family: 'Roboto', sans-serif;
+}
+body {
+	background-color: rgb(35, 34, 39);
+	padding: 0;
+	margin: 0;
+}
+h1 {
+	color: rgb(94, 94, 98);
+}
+.big {
+	font-weight: 900;
+}
+button {
+	background-color: rgb(22, 93, 210);
+	color: rgb(129, 183, 253);
+	cursor: pointer;
+	border: none;
+	padding: 0.5em;
+	width: 20em;
+	flex-grow: 1;
+}
+
+.accent-color {
+	color: #f3f4ed;
+}
+.small {
+	font-size: small;
+}
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	-webkit-align-items: center;
+	width: auto;
+	border: 3px solid green;
+}
+
+#starting-page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	-webkit-align-items: center;
+}

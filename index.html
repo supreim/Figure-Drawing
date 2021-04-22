@@ -1,19 +1,47 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
+	<head>
+		<meta charset="UTF-8" />
+		<!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="default-src 'self'; script-src 'self'"
+		/>
+		<meta
+			http-equiv="X-Content-Security-Policy"
+			content="default-src 'self'; script-src 'self'"
+		/>
+    <link rel="stylesheet" type="text/css" href="front-page.css"></link>
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;900&display=swap" rel="stylesheet">
+    <title>Figure Drawing</title>
+	</head>
+	<body>
+		<div id="starting-page">
+			<h1 class="big">FIGURE<span class="accent-color">DRAWING!</span></h1>
+			<button id="selectFolderBtn">Select a folder</button>
+			<div id="folder-info">
+				<h1 class="small">
+					Folder: <span class="name-of-folder"></span>
+				</h1>
+				<h1 class="small">
+					Found: <span class="num-of-imgs"></span> images
+				</h1>
+			</div>
+			<div id="session type">
+				<h1 class="small">Session Type</h1>
+				<div id="sessions">
+				</div>
+			</div>
+			<div id="timer" class="fill">
+				<h1 class="small">Fixed time for all images</h1>
+				<div id="times"></div>
+			</div>
+			<button id="drawBtn">Let's draw!</button>
+		</div>
+		<div style="display:none" id="figure"></div>
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
-  </body>
+		<!-- You can also require other files to run in this process -->
+		<script src="./renderer.js"></script>
+	</body>
 </html>
