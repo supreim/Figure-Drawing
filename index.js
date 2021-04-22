@@ -19,7 +19,6 @@ const times = document.querySelector("#times");
 const figure = document.querySelector("#figure");
 const startingPage = document.querySelector("#starting-page");
 
-console.log("HELLO");
 
 const startDrawing = (el)=>{
     startingPage.style.display = 'none';

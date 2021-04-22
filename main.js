@@ -21,7 +21,6 @@ function createWindow() {
   }));
 
   let contents = win.webContents
-  console.log(contents)
 
   win.on('closed', () => {
     win = null
@@ -38,7 +37,6 @@ app.on('ready', ()=>{
       filters: [{ name: "Images", extensions: ["png","jpg","jpeg"] }]
     });
   
-    console.log(result)
     win.webContents.send('chosenFile', result);
   
     // result.then(({canceled, filePaths, bookmarks}) => {
