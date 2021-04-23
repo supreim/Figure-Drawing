@@ -36,48 +36,39 @@ app.on('ready', ()=>{
   // Promtpt user to select folder
   ipcMain.on('selectDirectory',(event,arg)=>{
     let result = [];
+    let os
 
+    if(process.platform !== 'linux' && process.platform !== 'darwin')
+      os = 'WIN';
+    else 
+      os = 'NOT_WIN';
+
+    // prompts the user to choose a folder
     dir = dialog.showOpenDialog(win,{
       properties:['openDirectory'],
       filters:[{name:"Images"},{extensions:["png","jpg","jpeg"]}]
     });
-    dir = dir[0];
-    console.log(dir);
 
+    // path to folder
+    dir = dir[0];
+
+    // reading from folder
     fs.readdir(dir,(err,files)=>{
       if(err)
         console.log(err);
       else{
-
         files.forEach(file => {
           if(path.extname(file) === ".png" || path.extname(file) === ".jpg"){
-
             result.push(path.join(dir,file));
           }
         });
-        console.log(result);
-        win.webContents.send('chosenFiles', result);
+        // sending result to renderer through the 'chosenFiles' tunnel
+        win.webContents.send('chosenFiles', result,os);
       }
     });
 
   });
-
-  // ipcMain.on("chooseFile", (event, arg) => {
-  //   const result = dialog.showOpenDialog({
-  //     properties: ["openFile"],
-  //     filters: [{ name: "Images", extensions: ["png","jpg","jpeg"] }]
-  //   });
-
-    console.log(dir);
-    // 
-  
-    // result.then(({canceled, filePaths, bookmarks}) => {
-    //   const base64 = fs.readFileSync(filePaths[0]).toString('base64');
-    // event.reply("chosenFile", result);
-    // });
-  // });
 });
-
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

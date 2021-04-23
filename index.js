@@ -21,25 +21,29 @@ const figureContainer = document.querySelector("#figure-container");
 const startingPage = document.querySelector("#starting-page");
 
 let imagePath;
+let os;
 
+
+        
 
 
 selectFolderBtn.addEventListener("click",(el)=>{
     // trigger file prompt
     ipcRenderer.send('selectDirectory');
-
+    ipcRenderer.send('getOs');
+    
     // handle response
-    ipcRenderer.on('chosenFiles', (event, imgNames) => {
+    ipcRenderer.on('chosenFiles', (event, imgNames,os) => {
         imagePath = imgNames;
-        folderName = imgNames[0].split('\\').reverse()[1];
-        numImages = imgNames.length;
+        console.log(os);
+        if (os === 'WIN')
+            folderName = imgNames[0].split('\\').reverse()[1];
+        else 
+            folderName = imgNames[0].split('/').reverse()[1];
 
+        numImages = imgNames.length;
         nameOfFolder.innerHTML = folderName;
         numOfImgs.innerHTML = numImages;
-
-
-        // src = `data:image/jpg;base64,${base64}`
-        // console.log(src);
     });
 
 });
