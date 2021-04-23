@@ -50,7 +50,7 @@ drawBtn.addEventListener("click",(el)=>{
     if(imagePath){
         console.log(imagePath);
         startingPage.style.display = 'none';
-        figureContainer.style.display = 'block';
+        figureContainer.style.display = 'flex';
 
         imagePath.forEach((path)=>{
             imgTag = document.createElement("img");
