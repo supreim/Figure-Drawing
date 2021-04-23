@@ -61,7 +61,7 @@ app.on('ready', ()=>{
         console.log(err);
       else{
         files.forEach(file => {
-          if(path.extname(file) === ".png" || path.extname(file) === ".jpg"){
+          if(path.extname(file).toLowerCase() === ".png" || path.extname(file).toLowerCase() === ".jpg"){
             result.push(path.join(dir,file));
           }
         });
