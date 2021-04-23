@@ -13,7 +13,7 @@ let dir
 
 function createWindow() {
 
-  win = new BrowserWindow({ width: 500, height: 800 })
+  win = new BrowserWindow({ width: 500, height: 800, alwaysOnTop:true })
 
   win.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
