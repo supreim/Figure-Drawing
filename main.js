@@ -13,7 +13,7 @@ let dir
 
 function createWindow() {
 
-  win = new BrowserWindow({ width: 800, height: 600 })
+  win = new BrowserWindow({ width: 500, height: 800 })
 
   win.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
@@ -26,7 +26,10 @@ function createWindow() {
   win.on('closed', () => {
     win = null
   });
-  win.webContents.openDevTools()
+  
+  win.setMenu(null)
+  // open dev tools
+  // win.webContents.openDevTools()
 }
 
 
@@ -62,8 +65,10 @@ app.on('ready', ()=>{
             result.push(path.join(dir,file));
           }
         });
+
         // sending result to renderer through the 'chosenFiles' tunnel
-        win.webContents.send('chosenFiles', result,os);
+        if(result.length > 0)
+          win.webContents.send('chosenFiles', result,os);
       }
     });
 
