@@ -22,12 +22,21 @@ h1 {
 }
 button {
 	background-color: rgb(22, 93, 210);
-	color: rgb(129, 183, 253);
+	color: rgb(254, 254, 255);
 	cursor: pointer;
 	border: none;
+	outline: none;
 	padding: 0.5em;
 	width: 20em;
 	flex-grow: 1;
+}
+.active {
+	background-color: rgb(22, 93, 210);
+	color: rgb(254, 254, 255);
+}
+.unactive {
+	background-color: rgb(47, 47, 56);
+	color: rgb(254, 254, 255);
 }
 
 .accent-color {
@@ -52,11 +61,24 @@ button {
 .control img {
 	width: 100%;
 	height: 100%;
+	cursor: pointer;
 }
 
 .skip-right {
 	transform: rotate(180deg);
 }
+
+#times,
+#sessions {
+	display: flex;
+	flex-direction: row;
+	width: 266.9px;
+}
+
+#drawBtn {
+	margin-top: 10px;
+}
+
 #exit {
 	transform: rotate(180deg);
 	width: 39px;
@@ -67,7 +89,7 @@ button {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
 	-webkit-align-items: center;
 }
 
@@ -76,7 +98,6 @@ button {
 	flex-direction: column;
 	justify-content: space-between;
 	max-width: 40em;
-	/* max-height: 40em; */
 	height: 100%;
 	min-width: 3em;
 	min-height: 3em;
@@ -86,20 +107,11 @@ button {
 }
 #figure {
 	flex-grow: 2;
-	/* height: 100%;
-	width: 100%; */
 }
-/* .space {
-	flex: 10;
-	width: 100%;
-	height: 100%;
-	background-color: aqua;
-} */
+
 #controls {
 	flex-grow: 1;
 	display: flex;
 	align-items: baseline;
 	align-items: flex-end;
-	/* height: 100%;
-	width: 100%; */
 }

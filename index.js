@@ -1,12 +1,3 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// No Node.js APIs are available in this process because
-// `nodeIntegration` is turned off. Use `preload.js` to
-// selectively enable features needed in the rendering
-// process.
-// import { createRequire } from 'module'
-// const require = createRequire(import.meta.url);
-// import { ipcRenderer } from 'electron';
 const electron = require('electron');
 const ipcRenderer = electron.ipcRenderer
 
@@ -20,12 +11,39 @@ const figure = document.querySelector("#figure");
 const figureContainer = document.querySelector("#figure-container");
 const startingPage = document.querySelector("#starting-page");
 
+const exit = document.querySelector("#exit");
+const skipLeft= document.querySelector(".skip-left");
+const pause = document.querySelector(".pause");
+const skipRight= document.querySelector(".skip-right");
+
 let imagePath;
 let os;
 
+const btnOptions = (parent,text)=>{
+    const btn = document.createElement('button');
+    btn.innerHTML = `${text}`;
+    btn.style.border = 'none';
+    btn.style.outline = 'none';
+    btn.classList.add('unactive');
 
+    btn.addEventListener('click', (el)=>{
         
+        parent.childNodes.forEach(child =>{
+            child.classList.remove('active');
+            child.classList.add('unactive');
+        });
+        el.target.classList.add('active');
+        el.target.classList.remove('unactive');
+    });
+    
+    parent.appendChild(btn);
+};
 
+const exitToStartingScreen = ()=>{
+    figureContainer.style.display = 'none';
+    figure.innerHTML = '';
+    startingPage.style.display = 'flex';
+};
 
 selectFolderBtn.addEventListener("click",(el)=>{
     // trigger file prompt
@@ -35,7 +53,6 @@ selectFolderBtn.addEventListener("click",(el)=>{
     // handle response
     ipcRenderer.on('chosenFiles', (event, imgNames,os) => {
         imagePath = imgNames;
-        console.log(os);
         if (os === 'WIN')
             folderName = imgNames[0].split('\\').reverse()[1];
         else 
@@ -50,9 +67,10 @@ selectFolderBtn.addEventListener("click",(el)=>{
 
 drawBtn.addEventListener("click",(el)=>{
     imgTags = [];
+    let figNum;
+    i = 1;
 
     if(imagePath){
-        console.log(imagePath);
         startingPage.style.display = 'none';
         figureContainer.style.display = 'flex';
 
@@ -68,11 +86,46 @@ drawBtn.addEventListener("click",(el)=>{
         });
 
         figure.appendChild(imgTags[0]);
+
+        const intervalID = setInterval(()=>{
+            if(i < imgTags.length)
+                figure.innerHTML = '';
+            if(i < imgTags.length){
+                figure.appendChild(imgTags[i]);
+                i++;
+            }
+            else{
+                clearInterval(intervalID);
+            }
+        },1000);
+        
+
     }
     else{
-        console.log("Please Select a folder first!");
+        el.target.style.backgroundColor = 'red';
+        el.target.innerHTML = 'Select a folder first!';
     }
 });
 
+exit.addEventListener('click', (el)=>{
+    exitToStartingScreen();
+});
 
-  
+drawBtn.addEventListener("mouseout",(el)=>{
+    el.target.style.backgroundColor = 'rgb(22, 93, 210)';
+    el.target.innerHTML = 'Let\'s draw!';
+});
+
+
+        
+btnOptions(times,'30s');
+btnOptions(times,'45s');
+btnOptions(times,'1m');
+btnOptions(times,'2m');
+btnOptions(times,'5m');
+btnOptions(times,'10m');
+
+btnOptions(sessions,'Practice');
+btnOptions(sessions,'Class');
+btnOptions(sessions,'Relaxed');
+btnOptions(sessions,'Custom');
