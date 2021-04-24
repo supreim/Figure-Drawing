@@ -8,9 +8,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 import keyboard
 
-PATH_TO_CHROMEDRIVER = 'chromedriver'
+PATH_TO_CHROMEDRIVER = 'path-to-chromedriver'
 # path to home
-HOME = 'C:\\Users\\picca\\'
+HOME = 'C:\\Users\\{username}\\'
 EMAIL = 'your@gmail.com'
 PASSWORD = 'yourPassword'
 SEARCH = 'Figure Drawing Poses'
