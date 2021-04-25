@@ -29,7 +29,7 @@ function createWindow() {
   
   win.setMenu(null)
   // open dev tools
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 }
 
 

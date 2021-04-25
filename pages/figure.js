@@ -6,6 +6,7 @@ module.exports = class Figure{
         this.figureContainer = document.querySelector("#figure-container");
         this.startingPage = document.querySelector("#starting-page");
         this.exit = document.querySelector("#exit");
+        this.timeDiv = document.querySelector("#time");
         this.skipLeft= document.querySelector(".skip-left");
         this.pause = document.querySelector(".pause");
         this.skipRight= document.querySelector(".skip-right");
@@ -28,6 +29,7 @@ module.exports = class Figure{
         this.timerRunning = true;
         this.i = 1;
         clearInterval(this.sessionIntervalID);
+        this.timeDiv.innerHTML = '';
     };
 
     fig(){
@@ -43,6 +45,7 @@ module.exports = class Figure{
 
         this.clock();
         this.controls();
+        this.endTimerTime = intervalLength;
         if(this.activeSession === "Practice"){
             this.practice(intervalLength);
         }
@@ -97,16 +100,24 @@ module.exports = class Figure{
             if(this.figureContainer.style.display === 'none')
                 clearInterval(intervalID);
             else{
-                if (this.timerRunning){
-                    console.log(this.timeSeconds)
-                    this.timeSeconds++;
-                }
-                if(this.timeSeconds > 60)
+                if (this.timerRunning)
+                    this.timer(++this.timeSeconds);
+                if(this.timeSeconds > this.endTimerTime/1000)
                     this.timeSeconds = 0
+                
             }
 
         },1000);
         return intervalID;
+    }
+    timer(seconds){
+        let timeMilli = (this.endTimerTime/1000) - seconds;
+        let timeMin = (timeMilli / 60) + 0.1;
+        if (timeMin < 1){
+            timeMin *= 100;
+            timeMin -= 29
+        }
+        this.timeDiv.innerHTML =`<span style="color:white">${timeMin.toFixed(0)}</span>`;
     }
     createImgTags(){
         this.startingPage.style.display = 'none';
