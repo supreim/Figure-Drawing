@@ -13,12 +13,21 @@ module.exports = class Figure{
         this.i = 1;
         this.activeSession = activeSession;
         this.activeTime = activeTime;
+        this.timeSeconds = 0;
+        this.sessionRunning = true;
+        this.timerRunning = true;
+        this.sessionChange = false;
+
     }
-    exitToStartingScreen(intervalID){
+    exitToStartingScreen(){
         this.figureContainer.style.display = 'none';
         this.figure.innerHTML = '';
         this.startingPage.style.display = 'flex';
-        clearInterval(intervalID);
+        this.timeSeconds = 0;
+        this.sessionRunning = true;
+        this.timerRunning = true;
+        this.i = 1;
+        clearInterval(this.sessionIntervalID);
     };
 
     fig(){
@@ -26,15 +35,16 @@ module.exports = class Figure{
         
         let unit = this.activeTime.split("").reverse()[0]
         let intervalLength = parseInt(this.activeTime);
-        let intervalID;
 
         if(unit == "s")
             intervalLength *= 1000;
         if(unit == "m") 
             intervalLength *= 60000
 
+        this.clock();
+        this.controls();
         if(this.activeSession === "Practice"){
-            intervalID = this.practice(intervalLength);
+            this.practice(intervalLength);
         }
         if(this.activeSession == "Class"){
             console.log("Class");
@@ -45,40 +55,57 @@ module.exports = class Figure{
         if(this.activeSession == "Custom"){
             console.log("Custom");
         }
-
-        this.controls(intervalID);
-
     }
     practice(time){
-        this.figure.appendChild(this.imgTags[0]);
-        const intervalID = setInterval(()=>{
-            // if(this.i < this.imgTags.length)
-            this.figure.innerHTML = '';
+        let firstRun = true;
+        if(this.timeSeconds < time && firstRun)
+            this.figure.appendChild(this.imgTags[0]);
+        this.sessionIntervalID = setInterval(()=>{
+            if(this.timeSeconds % (time/1000) === 0 && this.timeSeconds >= time/1000 || this.sessionChange){
+                this.figure.innerHTML = '';
+                if(this.i < this.imgTags.length){
+                    this.figure.appendChild(this.imgTags[this.i]);
+                    this.i++;
+                    firstRun = false;
+                }
+                else{
+                    this.exitToStartingScreen();
+                }
+                this.sessionChange = false
+            }
+        },1000)
+    }
+    controls(){
+        this.exit.addEventListener('click',()=>this.exitToStartingScreen());
+        this.pause.addEventListener('click', ()=>this.timerRunning?this.timerRunning = false:this.timerRunning = true)
+        this.skipLeft.addEventListener('click', ()=>{
+            if(this.i > 1){
+                this.timeSeconds = 0;
+                this.i -= 2;
+                this.sessionChange = true;
+            }
+        });
+        this.skipRight.addEventListener('click', ()=>{
             if(this.i < this.imgTags.length){
-                this.figure.appendChild(this.imgTags[this.i]);
-                this.i++;
+                this.timeSeconds = 0;
+                this.sessionChange = true;
             }
-            else{
-                // clearInterval(intervalID);
-                this.exitToStartingScreen(intervalID);
-            }
-        },time);
-
-        return intervalID;
+        });
     }
-    controls(intervalID){
-        this.exit.addEventListener('click',()=>this.exitToStartingScreen(intervalID));
-    }
-    clock(update){
-        this.time = 0;
+    clock(){
         const intervalID = setInterval(()=>{
             if(this.figureContainer.style.display === 'none')
-                clearInterval(interalID);
+                clearInterval(intervalID);
             else{
-                this.time += update
+                if (this.timerRunning){
+                    console.log(this.timeSeconds)
+                    this.timeSeconds++;
+                }
+                if(this.timeSeconds > 60)
+                    this.timeSeconds = 0
             }
 
-        },update * 1000);
+        },1000);
         return intervalID;
     }
     createImgTags(){
