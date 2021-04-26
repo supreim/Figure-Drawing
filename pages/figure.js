@@ -76,7 +76,7 @@ module.exports = class Figure{
                 }
                 this.sessionChange = false
             }
-        },1000)
+        },0)
     }
     controls(){
         this.exit.addEventListener('click',()=>this.exitToStartingScreen());
@@ -128,7 +128,8 @@ module.exports = class Figure{
             let imgTag = document.createElement("img");
             imgTag.src = path;
             imgTag.style.width = '100%';
-            imgTag.style.height = '100%';
+            // imgTag.style.height = '100%';
+            imgTag.style.maxHeight = '650px';
             imgTag.style.objectFit = 'cover';
             imgTag.style.overflow = 'hidden';
 
