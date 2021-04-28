@@ -8,19 +8,21 @@ from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 import keyboard
 
-PATH_TO_CHROMEDRIVER = 'path'
-# path to home
-HOME = 'C:\\Users\\{username}\\'
-EMAIL = 'your@gmail.com'
-PASSWORD = 'yourPassword'
-SEARCH = 'Figure Drawing Poses'
-DOWNLOAD = True
-SPEED = 2
-# Path to folder where your gonna download the images
-PATH = 'folder'
-# how much groups of images
-# 1 group is like 6 images
-AMT_SET_IMG = 20
+# PATH_TO_CHROMEDRIVER = 'path'
+# # path to home
+# HOME = 'C:\\Users\\{username}\\'
+# EMAIL = 'your@gmail.com'
+# PASSWORD = 'yourPassword'
+# SEARCH = 'Figure Drawing Poses'
+# DOWNLOAD = True
+# SPEED = 2
+# # Path to folder where your gonna download the images
+# PATH = 'folder'
+# # how much groups of images
+# # 1 group is like 6 images
+# AMT_SET_IMG = 20
+
+
 class Pinterest():
     def __init__(self, email, password,  url='C:\\Program Files (x86)\\chromedriver'):
         self.options = webdriver.ChromeOptions()

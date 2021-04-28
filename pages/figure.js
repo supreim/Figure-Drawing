@@ -18,6 +18,7 @@ module.exports = class Figure{
         this.sessionRunning = true;
         this.timerRunning = true;
         this.sessionChange = false;
+        this.sessionActive = true;
 
     }
     exitToStartingScreen(){
@@ -38,15 +39,19 @@ module.exports = class Figure{
         let unit = this.activeTime.split("").reverse()[0]
         let intervalLength = parseInt(this.activeTime);
 
-        if(unit == "s")
-            intervalLength *= 1000;
+        // if(unit == "s")
+        //     intervalLength *= 1000;
         if(unit == "m") 
-            intervalLength *= 60000
+            intervalLength *= 60;
 
         this.clock();
         this.controls();
         this.endTimerTime = intervalLength;
         if(this.activeSession === "Practice"){
+            if(unit == "s")
+                intervalLength *= 1000;
+            else if(unit == "m") 
+                intervalLength *= 60000;
             this.practice(intervalLength);
         }
         if(this.activeSession == "Class"){
@@ -64,17 +69,19 @@ module.exports = class Figure{
         if(this.timeSeconds < time && firstRun)
             this.figure.appendChild(this.imgTags[0]);
         this.sessionIntervalID = setInterval(()=>{
-            if(this.timeSeconds % (time/1000) === 0 && this.timeSeconds >= time/1000 || this.sessionChange){
+            if(this.timeSeconds % (time/1000) === 0 && this.timeSeconds >= time/1000 && this.sessionActive || this.sessionChange){
                 this.figure.innerHTML = '';
-                if(this.i < this.imgTags.length){
+                if(this.i < this.imgTags.length){ 
                     this.figure.appendChild(this.imgTags[this.i]);
                     this.i++;
                     firstRun = false;
+                    this.sessionActive = false;
+                    setTimeout(()=>this.sessionActive = true,1000);
                 }
                 else{
                     this.exitToStartingScreen();
                 }
-                this.sessionChange = false
+                this.sessionChange = false;
             }
         },0)
     }
@@ -102,7 +109,7 @@ module.exports = class Figure{
             else{
                 if (this.timerRunning)
                     this.timer(++this.timeSeconds);
-                if(this.timeSeconds > this.endTimerTime/1000)
+                if(this.timeSeconds > this.endTimerTime)
                     this.timeSeconds = 0
                 
             }
@@ -111,13 +118,14 @@ module.exports = class Figure{
         return intervalID;
     }
     timer(seconds){
-        let timeMilli = (this.endTimerTime/1000) - seconds;
-        let timeMin = (timeMilli / 60) + 0.1;
-        if (timeMin < 1){
-            timeMin *= 100;
-            timeMin -= 29
+        let timeSecs = (this.endTimerTime - seconds);
+        if (timeSecs >= 60){
+            let timeMin = (timeSecs / 60);
+            this.timeDiv.innerHTML =`<span style="color:white">${timeMin.toFixed(2)}</span>`;
         }
-        this.timeDiv.innerHTML =`<span style="color:white">${timeMin.toFixed(0)}</span>`;
+        else
+            this.timeDiv.innerHTML =`<span style="color:white">${timeSecs}</span>`;
+
     }
     createImgTags(){
         this.startingPage.style.display = 'none';
