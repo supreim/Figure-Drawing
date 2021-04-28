@@ -44,9 +44,33 @@ class Pinterest():
         keyboard.press_and_release('enter')
         sleep(5)
 
-    def get_board_pins(self, board='https://www.pinterest.com/ban_low_key/pins/'):
+    def get_board_pins(self, board='https://www.pinterest.com/ban_low_key/pins/', amt_set_imgs=10, path='figure-drawing\\pinterest-images'):
+        img_srcs = []
+        self._login()
         self.driver.get(board)
-        sleep(3)
+        print("Getting Pins From Board")
+        for i in range(amt_set_imgs):
+            sleep(SPEED)
+            self.driver.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight);")
+
+            imgs = self.driver.find_elements_by_tag_name("img")
+
+            for img in imgs:
+                try:
+                    if len(img.get_attribute('srcset').split(' ')) >= 2:
+                        attribute = img.get_attribute('srcset').split(' ')[-2]
+                    else:
+                        attribute = img.get_attribute('srcset')
+                    # Filter out repeated attributes
+                    if not attribute in img_srcs:
+                        img_srcs.append(attribute)
+                except:
+                    print('failed to get img src')
+
+        self._close_window()
+        pin.store_img_links(HOME + path, img_srcs)
+        return img_srcs
 
     def searchPins(self, message="figure drawing poses", amt_set_imgs=20, download=True, path='figure-drawing\\pinterest-images'):
         img_srcs = []
@@ -105,6 +129,9 @@ class Pinterest():
 
 if __name__ == '__main__':
     pin = Pinterest(EMAIL, PASSWORD, url=PATH_TO_CHROMEDRIVER)
-    result = pin.searchPins(
-        message=SEARCH, amt_set_imgs=AMT_SET_IMG, download=DOWNLOAD, path=PATH)
+    # result = pin.searchPins(
+    #     message=SEARCH, amt_set_imgs=AMT_SET_IMG, download=DOWNLOAD, path=PATH)
+
+    results = pin.get_board_pins(
+        board=BOARD, amt_set_imgs=AMT_SET_IMG, path=PATH)
     print("quitting...")
