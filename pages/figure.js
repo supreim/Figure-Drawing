@@ -48,10 +48,10 @@ module.exports = class Figure{
         this.controls();
         this.endTimerTime = intervalLength;
         if(this.activeSession === "Practice"){
-            if(unit == "s")
-                intervalLength *= 1000;
-            else if(unit == "m") 
-                intervalLength *= 60000;
+            // if(unit == "s")
+            //     intervalLength *= 1000;
+            // else if(unit == "m") 
+            //     intervalLength *= 60000;
             this.practice(intervalLength);
         }
         if(this.activeSession == "Class"){
@@ -69,7 +69,7 @@ module.exports = class Figure{
         if(this.timeSeconds < time && firstRun)
             this.figure.appendChild(this.imgTags[0]);
         this.sessionIntervalID = setInterval(()=>{
-            if(this.timeSeconds % (time/1000) === 0 && this.timeSeconds >= time/1000 && this.sessionActive || this.sessionChange){
+            if(this.timeSeconds % (time) === 0 && this.timeSeconds >= time && this.sessionActive || this.sessionChange){
                 this.figure.innerHTML = '';
                 if(this.i < this.imgTags.length){ 
                     this.figure.appendChild(this.imgTags[this.i]);
