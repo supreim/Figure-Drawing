@@ -2,7 +2,7 @@
 
 ### TODO:
 * ~Select Folder~
-* Display an image
-* Alternate between images for a given interval
-* Timer
+* ~Display an image~
+* ~Alternate between images for a given interval~
+* ~Timer~
 
