@@ -22,22 +22,6 @@ import keyboard
 # # 1 group is like 6 images
 # AMT_SET_IMG = 20
 
-PATH_TO_CHROMEDRIVER = 'C:\\Program Files (x86)\\chromedriver'
-# path to home
-HOME = 'C:\\Users\\picca\\'
-EMAIL = 'piccardharris@gmail.com'
-PASSWORD = 'Rohancampbell01'
-SEARCH = 'Pose reference photo'
-DOWNLOAD = True
-SPEED = 0.5
-# Path to folder where your gonna download the images
-PATH = '/figure-drawing/pinterest-images/figures'
-# how much groups of images
-# 1 group is like 6 images
-AMT_SET_IMG = 50
-BOARD = "https://www.pinterest.com/ban_low_key/to-draw/figure-drawing/"
-
-
 class Pinterest():
     def __init__(self, email, password,  url='C:\\Program Files (x86)\\chromedriver'):
         self.options = webdriver.ChromeOptions()
